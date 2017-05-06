@@ -2,8 +2,15 @@
 class ComponentCollision:
     """ ComponentRenderable main class """
 
-    aRectangle = []
+    aRectangle = {}
 
-    def __init__(self, oRectange):
+    def __init__(self, oRectange, bWall, iEntity):
         self.oRectangle = oRectange
-        ComponentCollision.aRectangle.append(oRectange)
+        self.bWall = bWall
+        self.iEntity = iEntity
+        if bWall == True:
+            ComponentCollision.aRectangle[iEntity] = oRectange
+
+    def __del__(self):
+        if self.bWall == True:
+            del ComponentCollision.aRectangle[self.iEntity]

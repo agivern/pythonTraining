@@ -5,9 +5,10 @@ import pygame
 class ProcessorRender(esper.Processor):
     """ ProcessorRender main class """
 
-    def __init__(self, oWindow, clear_color=(0, 0, 0)):
+    def __init__(self, oWindow, oFont, clear_color=(0, 0, 0)):
         super().__init__()
         self.oWindow = oWindow
+        self.oFont = oFont
         self.clear_color = clear_color
 
     def process(self):
@@ -21,6 +22,26 @@ class ProcessorRender(esper.Processor):
                     oComponentRenderable.fPositionY
                 )
             )
+
+            if self.world.has_component(oEntity, ComponentCollision):
+                pygame.draw.rect(
+                    self.oWindow,
+                    (150,150,150),
+                    self.world.component_for_entity(oEntity, ComponentCollision).oRectangle
+                )
+
+            if self.world.has_component(oEntity, ComponentLife):
+                label = self.oFont.render(
+                    str(self.world.component_for_entity(oEntity, ComponentLife).iLife),
+                    1,
+                    (0,0,0)
+                )
+                self.oWindow.blit(label,
+                    (
+                        oComponentRenderable.fPositionX,
+                        oComponentRenderable.fPositionY
+                    )
+                )
 
         pygame.display.flip()
 
