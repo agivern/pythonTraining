@@ -13,7 +13,7 @@ RESOLUTION = 720, 480
 def run():
     pygame.init()
     oWindow = pygame.display.set_mode(RESOLUTION)
-    pygame.display.set_caption("Esper Pygame example")
+    pygame.display.set_caption('Drinkor')
     oClock = pygame.time.Clock()
     pygame.key.set_repeat(1, 1)
 
@@ -22,38 +22,57 @@ def run():
     # Add entities in the wolrd
     player = oWorld.create_entity(
         ComponentVelocity(
-            fPositionX=0,
-            fPositionY=0
+            fPositionX = 0,
+            fPositionY = 0
         ),
         ComponentRenderable(
-            oImage=pygame.image.load("redsquare.png"),
-            fPositionX=100,
-            fPositionY=100
+            oImage=pygame.image.load('bluesquare.png'),
+            fPositionX = 100,
+            fPositionY = 100
+        ),
+        ComponentCollision(
+            oRectange = Rect(100, 100, 64, 64)
         )
     )
 
     enemy = oWorld.create_entity(
         ComponentRenderable(
-            oImage=pygame.image.load("bluesquare.png"),
-            fPositionX=400,
-            fPositionY=250
+            oImage=pygame.image.load('redsquare.png'),
+            fPositionX = 400,
+            fPositionY = 250
+        ),
+        ComponentCollision(
+            oRectange = Rect(400, 250, 64, 64)
+        )
+    )
+
+    enemy = oWorld.create_entity(
+        ComponentRenderable(
+            oImage=pygame.image.load('redsquare.png'),
+            fPositionX = 250,
+            fPositionY = 120
+        ),
+        ComponentCollision(
+            oRectange = Rect(250, 120, 64, 64)
         )
     )
 
     # Add processor in the world
     oWorld.add_processor(
-        ProcessorRender(
-            oWindow = oWindow
-        )
+        ProcessorCollision(),
+        priority = 3
     )
 
     oWorld.add_processor(
-        ProcessorMovement(
-            fMinX = 0,
-            fMaxX = RESOLUTION[0],
-            fMinY = 0,
-            fMaxY = RESOLUTION[1]
-        )
+        ProcessorMovement(),
+        priority = 2
+    )
+
+    oWorld.add_processor(
+        ProcessorRender(
+            oWindow = oWindow
+        ),
+        priority = 1
     )
 
     running = True
