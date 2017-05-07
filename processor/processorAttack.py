@@ -10,15 +10,15 @@ class ProcessorAttack(esper.Processor):
         super().__init__()
 
     def process(self):
-        for oEntity, (oComponentAttack, oComponentRenderable) in self.world.get_components(ComponentAttack, ComponentRenderable):
+        for oEntity, (oComponentAttack, oComponentPosition, oComponentRenderable) in self.world.get_components(ComponentAttack, ComponentPosition, ComponentRenderable):
             if oComponentAttack.bAttack == True:
                 oComponentAttack.bAttack = False
 
                 iAttackerDirectionX = self.world.component_for_entity(oEntity, ComponentDirection).iDirectionX
                 iAttackerDirectionY = self.world.component_for_entity(oEntity, ComponentDirection).iDirectionY
 
-                fAttackPositionX = oComponentRenderable.fPositionX + oComponentRenderable.fWidth / 2
-                fAttackPositionY = oComponentRenderable.fPositionY + oComponentRenderable.fHeight / 2
+                fAttackPositionX = oComponentPosition.fPositionX + oComponentRenderable.fWidth / 2
+                fAttackPositionY = oComponentPosition.fPositionY + oComponentRenderable.fHeight / 2
 
 
                 if iAttackerDirectionX == -1:
@@ -33,7 +33,7 @@ class ProcessorAttack(esper.Processor):
                     pass
 
                 if iAttackerDirectionY == -1:
-                    fAttackPositionY -= oComponentRenderable.fHeight / 2 + oComponentRenderable.fHeight
+                    fAttackPositionY -= oComponentRenderable.fHeight / 2 + oComponentAttack.fWidth
                     fWidth = oComponentAttack.fHeight
                     fHeight = oComponentAttack.fWidth
                 elif iAttackerDirectionY == 1:
@@ -47,9 +47,7 @@ class ProcessorAttack(esper.Processor):
                 self.world.add_component(
                     iEntityAttack,
                     ComponentRenderable(
-                        oImage=pygame.image.load('greysquare.png'),
-                        fPositionX = fAttackPositionX,
-                        fPositionY = fAttackPositionY
+                        oImage=pygame.image.load('greysquare.png')
                     )
                 )
                 self.world.add_component(
@@ -63,6 +61,13 @@ class ProcessorAttack(esper.Processor):
                         ),
                         bWall = False,
                         iEntity = iEntityAttack
+                    )
+                )
+                self.world.add_component(
+                    iEntityAttack,
+                    ComponentPosition(
+                        fPositionX = fAttackPositionX,
+                        fPositionY = fAttackPositionY
                     )
                 )
                 self.world.add_component(

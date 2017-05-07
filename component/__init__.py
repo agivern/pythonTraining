@@ -6,6 +6,11 @@ from .componentAttack import ComponentAttack
 from .componentFrameLife import ComponentFrameLife
 from .componentDamage import ComponentDamage
 from .componentDirection import ComponentDirection
+from .componentPosition import ComponentPosition
+from .componentCamera import ComponentCamera
+from .componentMainCharacter import ComponentMainCharacter
+from .componentMap import ComponentMap
+from .componentCameraTarget import ComponentCameraTarget
 
 __all__ = [
     'ComponentLife',
@@ -15,5 +20,10 @@ __all__ = [
     'ComponentAttack',
     'ComponentFrameLife',
     'ComponentDamage',
-    'ComponentDirection'
+    'ComponentDirection',
+    'ComponentPosition',
+    'ComponentCamera',
+    'ComponentMainCharacter',
+    'ComponentMap',
+    'ComponentCameraTarget'
 ]

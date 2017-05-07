@@ -22,6 +22,26 @@ def run():
     oWorld = esper.World()
 
     # Add entities in the wolrd
+    iEntityMap = oWorld.create_entity(
+        ComponentMap(
+            iWidth = 900,
+            iHeight = 700,
+            iMapNumber = 1
+        )
+    )
+
+    iEntityCamera = oWorld.create_entity(
+        ComponentVelocity(
+            fDirectionX = 0,
+            fDirectionY = 0
+        ),
+        ComponentPosition(
+            fPositionX = 0,
+            fPositionY = 0
+        ),
+        ComponentCamera()
+    )
+
     iEntityPlayer = oWorld.create_entity()
     oWorld.add_component(
         iEntityPlayer,
@@ -34,9 +54,7 @@ def run():
     oWorld.add_component(
         iEntityPlayer,
         ComponentRenderable(
-            oImage=pygame.image.load('bluesquare.png'),
-            fPositionX = 100,
-            fPositionY = 100
+            oImage=pygame.image.load('bluesquare.png')
         ),
     )
     oWorld.add_component(
@@ -44,6 +62,13 @@ def run():
         ComponentVelocity(
             fDirectionX = 0,
             fDirectionY = 0
+        )
+    )
+    oWorld.add_component(
+        iEntityPlayer,
+        ComponentPosition(
+            fPositionX = 100,
+            fPositionY = 100
         )
     )
     oWorld.add_component(
@@ -60,14 +85,20 @@ def run():
         iEntityPlayer,
         ComponentDirection(),
     )
+    oWorld.add_component(
+        iEntityPlayer,
+        ComponentMainCharacter(),
+    )
+    oWorld.add_component(
+        iEntityPlayer,
+        ComponentCameraTarget(),
+    )
 
     iEntityMonster = oWorld.create_entity()
     oWorld.add_component(
         iEntityMonster,
         ComponentRenderable(
-            oImage=pygame.image.load('redsquare.png'),
-            fPositionX = 400,
-            fPositionY = 250
+            oImage=pygame.image.load('redsquare.png')
         )
     )
     oWorld.add_component(
@@ -76,6 +107,13 @@ def run():
             oRectange = Rect(400, 250, 64, 64),
             bWall = True,
             iEntity = iEntityMonster
+        )
+    )
+    oWorld.add_component(
+        iEntityMonster,
+        ComponentPosition(
+            fPositionX = 400,
+            fPositionY = 250
         )
     )
     oWorld.add_component(
@@ -89,9 +127,7 @@ def run():
     oWorld.add_component(
         iEntityMonster,
         ComponentRenderable(
-            oImage=pygame.image.load('redsquare.png'),
-            fPositionX = 250,
-            fPositionY = 120
+            oImage=pygame.image.load('redsquare.png')
         )
     )
     oWorld.add_component(
@@ -100,6 +136,13 @@ def run():
             oRectange = Rect(250, 120, 64, 64),
             bWall = True,
             iEntity = iEntityMonster
+        )
+    )
+    oWorld.add_component(
+        iEntityMonster,
+        ComponentPosition(
+            fPositionX = 250,
+            fPositionY = 120
         )
     )
     oWorld.add_component(
@@ -122,7 +165,11 @@ def run():
     iPriority += 1
 
     oWorld.add_processor(
-        ProcessorMovement(),
+        ProcessorMovement(
+            oWindow = oWindow,
+            iEntityCamera = iEntityCamera,
+            iEntityMap = iEntityMap
+        ),
         priority = iPriority
     )
     iPriority += 1
