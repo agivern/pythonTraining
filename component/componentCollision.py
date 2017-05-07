@@ -1,6 +1,6 @@
 
 class ComponentCollision:
-    """ ComponentRenderable main class """
+    """ ComponentCollision main class """
 
     aRectangle = {}
 

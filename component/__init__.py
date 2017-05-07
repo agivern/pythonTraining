@@ -5,6 +5,7 @@ from .componentCollision import ComponentCollision
 from .componentAttack import ComponentAttack
 from .componentFrameLife import ComponentFrameLife
 from .componentDamage import ComponentDamage
+from .componentDirection import ComponentDirection
 
 __all__ = [
     'ComponentLife',
@@ -13,5 +14,6 @@ __all__ = [
     'ComponentCollision',
     'ComponentAttack',
     'ComponentFrameLife',
-    'ComponentDamage'
+    'ComponentDamage',
+    'ComponentDirection'
 ]

@@ -14,23 +14,52 @@ class ProcessorAttack(esper.Processor):
             if oComponentAttack.bAttack == True:
                 oComponentAttack.bAttack = False
 
+                iAttackerDirectionX = self.world.component_for_entity(oEntity, ComponentDirection).iDirectionX
+                iAttackerDirectionY = self.world.component_for_entity(oEntity, ComponentDirection).iDirectionY
+
+                fAttackPositionX = oComponentRenderable.fPositionX + oComponentRenderable.fWidth / 2
+                fAttackPositionY = oComponentRenderable.fPositionY + oComponentRenderable.fHeight / 2
+
+
+                if iAttackerDirectionX == -1:
+                    fAttackPositionX -= oComponentRenderable.fWidth / 2 + oComponentAttack.fWidth
+                    fWidth = oComponentAttack.fWidth
+                    fHeight = oComponentAttack.fHeight
+                elif iAttackerDirectionX == 1:
+                    fAttackPositionX += oComponentRenderable.fWidth / 2
+                    fWidth = oComponentAttack.fWidth
+                    fHeight = oComponentAttack.fHeight
+                else:
+                    pass
+
+                if iAttackerDirectionY == -1:
+                    fAttackPositionY -= oComponentRenderable.fHeight / 2 + oComponentRenderable.fHeight
+                    fWidth = oComponentAttack.fHeight
+                    fHeight = oComponentAttack.fWidth
+                elif iAttackerDirectionY == 1:
+                    fAttackPositionY += oComponentRenderable.fHeight / 2
+                    fWidth = oComponentAttack.fHeight
+                    fHeight = oComponentAttack.fWidth
+                else:
+                    pass
+
                 iEntityAttack = self.world.create_entity()
                 self.world.add_component(
                     iEntityAttack,
                     ComponentRenderable(
                         oImage=pygame.image.load('greysquare.png'),
-                        fPositionX = oComponentRenderable.fPositionX + oComponentRenderable.fWidth,
-                        fPositionY = oComponentRenderable.fPositionY + oComponentRenderable.fHeight / 2
+                        fPositionX = fAttackPositionX,
+                        fPositionY = fAttackPositionY
                     )
                 )
                 self.world.add_component(
                     iEntityAttack,
                     ComponentCollision(
                         oRectange = Rect(
-                            oComponentRenderable.fPositionX + oComponentRenderable.fWidth,
-                            oComponentRenderable.fPositionY + oComponentRenderable.fHeight / 2,
-                            oComponentAttack.fWidth,
-                            oComponentAttack.fHeight
+                            fAttackPositionX,
+                            fAttackPositionY,
+                            fWidth,
+                            fHeight
                         ),
                         bWall = False,
                         iEntity = iEntityAttack
@@ -49,3 +78,15 @@ class ProcessorAttack(esper.Processor):
                         iEntityProtect = oEntity
                     )
                 )
+
+                if oComponentAttack.fVelocity != 0:
+                    fDirectionX = oComponentAttack.fVelocity * self.world.component_for_entity(oEntity, ComponentDirection).iDirectionX
+                    fDirectionY = oComponentAttack.fVelocity * self.world.component_for_entity(oEntity, ComponentDirection).iDirectionY
+
+                    self.world.add_component(
+                        iEntityAttack,
+                        ComponentVelocity(
+                            fDirectionX = fDirectionX,
+                            fDirectionY = fDirectionY
+                        )
+                    )
