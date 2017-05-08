@@ -22,9 +22,13 @@ def run():
     oWorld = esper.World()
 
     # Add entities in the wolrd
-    iEntityMap = oWorld.create_entity(
+    iEntityMap = oWorld.create_entity()
+    oWorld.add_component(
+        iEntityMap,
         ComponentMap(
-            iMapNumber = 1
+            iMapNumber = 1,
+            oWorld = oWorld,
+            iEntityMap = iEntityMap
         )
     )
 
@@ -92,64 +96,6 @@ def run():
         ComponentCameraTarget(),
     )
 
-    iEntityMonster = oWorld.create_entity()
-    oWorld.add_component(
-        iEntityMonster,
-        ComponentRenderable(
-            oImage=pygame.image.load('redsquare.png')
-        )
-    )
-    oWorld.add_component(
-        iEntityMonster,
-        ComponentCollision(
-            oRectange = Rect(400, 250, 64, 64),
-            bWall = True,
-            iEntity = iEntityMonster
-        )
-    )
-    oWorld.add_component(
-        iEntityMonster,
-        ComponentPosition(
-            fPositionX = 400,
-            fPositionY = 250
-        )
-    )
-    oWorld.add_component(
-        iEntityMonster,
-        ComponentLife(
-            iLife = 20
-        )
-    )
-
-    iEntityMonster = oWorld.create_entity()
-    oWorld.add_component(
-        iEntityMonster,
-        ComponentRenderable(
-            oImage=pygame.image.load('redsquare.png')
-        )
-    )
-    oWorld.add_component(
-        iEntityMonster,
-        ComponentCollision(
-            oRectange = Rect(250, 120, 64, 64),
-            bWall = True,
-            iEntity = iEntityMonster
-        )
-    )
-    oWorld.add_component(
-        iEntityMonster,
-        ComponentPosition(
-            fPositionX = 250,
-            fPositionY = 120
-        )
-    )
-    oWorld.add_component(
-        iEntityMonster,
-        ComponentLife(
-            iLife = 30
-        )
-    )
-
     # Add processor in the world
     iPriority = 0
 
@@ -185,7 +131,9 @@ def run():
     iPriority += 1
 
     oWorld.add_processor(
-        ProcessorTimeManagement (),
+        ProcessorTimeManagement (
+            oWindow = oWindow
+        ),
         priority = iPriority
     )
     iPriority += 1

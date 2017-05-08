@@ -33,7 +33,7 @@ class ProcessorRender(esper.Processor):
                             if fRowMaxX > fCameraMinX and fRowMinX < fCameraMaxX:
                                 pygame.draw.rect(
                                     self.oWindow,
-                                    oComponentMap.aColours[iTileType],
+                                    oComponentMap.aTileAttribute['color'][iTileType],
                                     (
                                         iIndexColumn*oComponentMap.iTILESIZE - fCameraMinX,
                                         iIndexRow*oComponentMap.iTILESIZE - fCameraMinY,
@@ -41,9 +41,12 @@ class ProcessorRender(esper.Processor):
                                         oComponentMap.iTILESIZE
                                     )
                                 )
+                            else:
+                                pass
                     else:
                         pass
 
+            # Display every entity rendererable in the map
             for oEntity, (oComponentRenderable, oComponentPosition) in self.world.get_components(ComponentRenderable, ComponentPosition):
                 self.oWindow.blit(
                     oComponentRenderable.oImage,
@@ -53,13 +56,7 @@ class ProcessorRender(esper.Processor):
                     )
                 )
 
-                if self.world.has_component(oEntity, ComponentCollision):
-                    pygame.draw.rect(
-                        self.oWindow,
-                        (150,150,150),
-                        self.world.component_for_entity(oEntity, ComponentCollision).oRectangle
-                    )
-
+                # Display the life of the entity
                 if self.world.has_component(oEntity, ComponentLife):
                     label = self.oFont.render(
                         str(self.world.component_for_entity(oEntity, ComponentLife).iLife),
@@ -72,6 +69,16 @@ class ProcessorRender(esper.Processor):
                             oComponentPosition.fPositionY
                         )
                     )
+                else:
+                    pass
+
+            """# Display the collision block (only use to make test)
+            for oEntity, oComponentCollision in self.world.get_component(ComponentCollision):
+                pygame.draw.rect(
+                    self.oWindow,
+                    (150,150,150),
+                    oComponentCollision.oRectangle
+                )"""
 
         pygame.display.flip()
 

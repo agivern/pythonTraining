@@ -39,7 +39,10 @@ class ProcessorMovement(esper.Processor):
                     and oComponentPosition.fPositionY > (self.oWindow.get_height() / 2)):
                         fCameraDirectionY = oComponentVelocity.fDirectionY
 
+        # We move all item in the opposite directionn of the camera
+        # only if it moves
         if (fCameraDirectionX != 0 or fCameraDirectionY != 0):
+
             for oEntity, oComponentPosition in self.world.get_component(ComponentPosition):
                 if (fCameraDirectionX != 0 or fCameraDirectionY != 0) :
                     oComponentPosition.fPositionX -= fCameraDirectionX

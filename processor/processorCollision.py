@@ -16,8 +16,15 @@ class ProcessorCollision(esper.Processor):
                 # can collide
                 if (oComponentVelocity.fDirectionX != 0
                     or oComponentVelocity.fDirectionY != 0) :
-                    oComponentCollision.oRectangle.move_ip(oComponentVelocity.fDirectionX, oComponentVelocity.fDirectionY)
+                    oComponentCollision.oRectangle.move_ip(
+                        oComponentVelocity.fDirectionX,
+                        oComponentVelocity.fDirectionY
+                    )
                     aIndexCollision = oComponentCollision.oRectangle.collidedictall(oComponentCollision.aRectangle,1)
+                    oComponentCollision.oRectangle.move_ip(
+                        -oComponentVelocity.fDirectionX,
+                        -oComponentVelocity.fDirectionY
+                    )
 
                     # We verify if the collision rectangle of the entity collide
                     # with an other rectangle than himself
@@ -25,8 +32,6 @@ class ProcessorCollision(esper.Processor):
                         if oEntity != iEntity:
                             oComponentVelocity.fDirectionX = 0
                             oComponentVelocity.fDirectionY = 0
-                        else:
-                            oComponentCollision.oRectangle.move_ip(-oComponentVelocity.fDirectionX, -oComponentVelocity.fDirectionY)
 
         # Verify the collision with a attack
         for oEntity, (oComponentCollision, oComponentDamage) in self.world.get_components(ComponentCollision, ComponentDamage):

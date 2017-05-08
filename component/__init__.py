@@ -9,8 +9,10 @@ from .componentDirection import ComponentDirection
 from .componentPosition import ComponentPosition
 from .componentCamera import ComponentCamera
 from .componentMainCharacter import ComponentMainCharacter
-from .componentMap import ComponentMap
 from .componentCameraTarget import ComponentCameraTarget
+from .componentFrameMonsterSpawner import ComponentFrameMonsterSpawner
+from .componentMap import ComponentMap
+
 
 __all__ = [
     'ComponentLife',
@@ -24,6 +26,7 @@ __all__ = [
     'ComponentPosition',
     'ComponentCamera',
     'ComponentMainCharacter',
-    'ComponentMap',
-    'ComponentCameraTarget'
+    'ComponentCameraTarget',
+    'ComponentFrameMonsterSpawner',
+    'ComponentMap'
 ]
