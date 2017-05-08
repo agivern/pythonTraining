@@ -14,8 +14,36 @@ class ProcessorRender(esper.Processor):
     def process(self):
         self.oWindow.fill(self.clear_color)
         for oEntityCamera, (oComponentPositionCamera, oComponentCamera) in self.world.get_components(ComponentPosition, ComponentCamera):
-            self.oWindow.get_width() / 2
-            self.oWindow.get_height() / 2
+            fCameraMinX = abs(oComponentPositionCamera.fPositionX)
+            fCameraMaxX = fCameraMinX + self.oWindow.get_width()
+            fCameraMinY = abs(oComponentPositionCamera.fPositionY)
+            fCameraMaxY = fCameraMinY + self.oWindow.get_height()
+
+            # Display the background of the map on the camera screen
+            for oEntityMap, oComponentMap in self.world.get_component(ComponentMap):
+                for iIndexRow, aRow in enumerate(oComponentMap.aTileMap):
+                    fRowMaxY = (iIndexRow + 1) * oComponentMap.iTILESIZE
+                    fRowMinY = fRowMaxY - oComponentMap.iTILESIZE
+                    # Verify the camera in the axis Y
+                    if fRowMaxY > fCameraMinY and fRowMinY < fCameraMaxY:
+                        for iIndexColumn, iTileType  in enumerate(aRow):
+                            fRowMaxX = (iIndexColumn + 1) * oComponentMap.iTILESIZE
+                            fRowMinX = fRowMaxX - oComponentMap.iTILESIZE
+                            # Verify the camera in the axis Y
+                            if fRowMaxX > fCameraMinX and fRowMinX < fCameraMaxX:
+                                pygame.draw.rect(
+                                    self.oWindow,
+                                    oComponentMap.aColours[iTileType],
+                                    (
+                                        iIndexColumn*oComponentMap.iTILESIZE - fCameraMinX,
+                                        iIndexRow*oComponentMap.iTILESIZE - fCameraMinY,
+                                        oComponentMap.iTILESIZE,
+                                        oComponentMap.iTILESIZE
+                                    )
+                                )
+                    else:
+                        pass
+
             for oEntity, (oComponentRenderable, oComponentPosition) in self.world.get_components(ComponentRenderable, ComponentPosition):
                 self.oWindow.blit(
                     oComponentRenderable.oImage,

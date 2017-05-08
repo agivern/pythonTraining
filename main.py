@@ -24,8 +24,6 @@ def run():
     # Add entities in the wolrd
     iEntityMap = oWorld.create_entity(
         ComponentMap(
-            iWidth = 900,
-            iHeight = 700,
             iMapNumber = 1
         )
     )
