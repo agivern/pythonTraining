@@ -14,11 +14,13 @@ class ProcessorRenderInventory(esper.Processor):
         pygame.draw.rect(
             self.oWindow,
             (0,0,0),
-            (
-                20,
-                20,
-                self.oWindow.get_width() - 40,
-                self.oWindow.get_height() - 40
-            )
+            (20, 20, self.oWindow.get_width() - 40, self.oWindow.get_height() - 40)
         )
+
+        for oEntity, oComponentItem in self.world.get_component(ComponentItem):
+            pygame.draw.rect(
+                self.oWindow,
+                oComponentItem.oColor,
+                oComponentItem.oRectangle
+            )
 

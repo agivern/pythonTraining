@@ -12,6 +12,8 @@ from .componentMainCharacter import ComponentMainCharacter
 from .componentCameraTarget import ComponentCameraTarget
 from .componentFrameMonsterSpawner import ComponentFrameMonsterSpawner
 from .componentMap import ComponentMap
+from .componentInventory import ComponentInventory
+from .componentItem import ComponentItem
 
 
 __all__ = [
@@ -28,5 +30,7 @@ __all__ = [
     'ComponentMainCharacter',
     'ComponentCameraTarget',
     'ComponentFrameMonsterSpawner',
-    'ComponentMap'
+    'ComponentMap',
+    'ComponentInventory',
+    'ComponentItem'
 ]

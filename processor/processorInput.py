@@ -30,8 +30,12 @@ class ProcessorInput(esper.Processor):
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_i:
                         oGameState.sState = 'normal'
+                        # Delete item entity and remove processor to render the inventory
                         self.world.remove_processor(processor.ProcessorRenderInventory)
+                        for oEntity, oComponentItem in self.world.get_component(ComponentItem):
+                            self.world.delete_entity(oEntity)
 
+                        # Add all the processor used in the normal gameplay
                         self.world.add_processor(
                             self.oProcessorList.aListProcessor['ProcessorMovement'][0],
                             self.oProcessorList.aListProcessor['ProcessorMovement'][1]
@@ -82,14 +86,26 @@ class ProcessorInput(esper.Processor):
 
                         if event.key == pygame.K_i:
                             oGameState.sState = 'inventory'
+
+                            # Disabled all the useless processor durint the inventory render
                             self.world.remove_processor(processor.ProcessorTimeManagement)
                             self.world.remove_processor(processor.ProcessorMovement)
                             self.world.remove_processor(processor.ProcessorAttack)
                             self.world.remove_processor(processor.ProcessorCollision)
+
+                            # Add the render of inventory and create items entity
                             self.world.add_processor(
                                 self.oProcessorList.aListProcessor['ProcessorRenderInventory'][0],
                                 self.oProcessorList.aListProcessor['ProcessorRenderInventory'][1]
                             )
+                            aItems = self.world.component_for_entity(iEntityPlayer, ComponentInventory).aItems
+                            for i, oItem in enumerate(aItems):
+                                iEntityItem = self.world.create_entity(
+                                    ComponentItem(
+                                        oColor = oItem.oColor,
+                                        iPosition = i
+                                    )
+                                )
 
                         if event.key in (pygame.K_z, pygame.K_s):
                             self.world.component_for_entity(iEntityPlayer, ComponentVelocity).fDirectionY = 0

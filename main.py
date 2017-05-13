@@ -7,6 +7,7 @@ from pygame.locals import *
 from component import *
 from processor import *
 from model import GameState
+from model import Item
 from tools import ProcessorList
 
 FPS = 60
@@ -64,8 +65,10 @@ def run():
         ComponentAttack(),
         ComponentDirection(),
         ComponentMainCharacter(),
-        ComponentCameraTarget()
+        ComponentCameraTarget(),
+        ComponentInventory()
     )
+
 
     oWorld.add_component(
         iEntityPlayer,
