@@ -12,3 +12,4 @@ def singleton(cls):
 class GameState:
     def __init__(self):
         self.bRunning = True
+        self.sState = 'normal'

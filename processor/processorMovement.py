@@ -5,19 +5,21 @@ import pygame
 class ProcessorMovement(esper.Processor):
     """ ProcessorMovement main class """
 
-    def __init__(self, oWindow, iEntityCamera, iEntityMap):
+    def __init__(self, oWindow):
         super().__init__()
         self.oWindow = oWindow
-        self.iEntityCamera = iEntityCamera
-        self.iEntityMap = iEntityMap
 
     def process(self):
-        fCameraDirectionX = self.world.component_for_entity(self.iEntityCamera, ComponentVelocity).fDirectionX = 0
-        fCameraDirectionY = self.world.component_for_entity(self.iEntityCamera, ComponentVelocity).fDirectionY = 0
-        fCameraPositionX = abs(self.world.component_for_entity(self.iEntityCamera, ComponentPosition).fPositionX)
-        fCameraPositionY = abs(self.world.component_for_entity(self.iEntityCamera, ComponentPosition).fPositionY)
-        fMapWidth = self.world.component_for_entity(self.iEntityMap, ComponentMap).iWidth
-        fMapHeight = self.world.component_for_entity(self.iEntityMap, ComponentMap).iHeight
+        for oEntity, oComponentMap in self.world.get_component(ComponentMap):
+            iEntityMap = oEntity
+        for oEntity, oComponentCamera in self.world.get_component(ComponentCamera):
+            iEntityCamera = oEntity
+        fCameraDirectionX = self.world.component_for_entity(iEntityCamera, ComponentVelocity).fDirectionX = 0
+        fCameraDirectionY = self.world.component_for_entity(iEntityCamera, ComponentVelocity).fDirectionY = 0
+        fCameraPositionX = abs(self.world.component_for_entity(iEntityCamera, ComponentPosition).fPositionX)
+        fCameraPositionY = abs(self.world.component_for_entity(iEntityCamera, ComponentPosition).fPositionY)
+        fMapWidth = self.world.component_for_entity(iEntityMap, ComponentMap).iWidth
+        fMapHeight = self.world.component_for_entity(iEntityMap, ComponentMap).iHeight
         for oEntity, (oComponentVelocity, oComponentPosition, oComponentCameraTarget) in self.world.get_components(ComponentVelocity, ComponentPosition, ComponentMainCharacter):
             if oComponentVelocity.fDirectionX != 0:
                 if (fCameraPositionX <= (fMapWidth - self.oWindow.get_width())

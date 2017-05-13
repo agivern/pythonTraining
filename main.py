@@ -7,6 +7,7 @@ from pygame.locals import *
 from component import *
 from processor import *
 from model import GameState
+from tools import ProcessorList
 
 FPS = 60
 RESOLUTION = 720, 480
@@ -76,52 +77,36 @@ def run():
     )
 
     # Add processor in the world
-    iPriority = 0
+    oProcessorList = ProcessorList()
+    oProcessorList.initProcessor(
+        oWindow = oWindow,
+        oFont = oFont
+    )
 
     oWorld.add_processor(
-        ProcessorRender(
-            oWindow = oWindow,
-            oFont = oFont
-        ),
-        priority = iPriority
+        oProcessorList.aListProcessor['ProcessorRender'][0],
+        oProcessorList.aListProcessor['ProcessorRender'][1]
     )
-    iPriority += 1
-
     oWorld.add_processor(
-        ProcessorMovement(
-            oWindow = oWindow,
-            iEntityCamera = iEntityCamera,
-            iEntityMap = iEntityMap
-        ),
-        priority = iPriority
+        oProcessorList.aListProcessor['ProcessorMovement'][0],
+        oProcessorList.aListProcessor['ProcessorMovement'][1]
     )
-    iPriority += 1
-
     oWorld.add_processor(
-        ProcessorCollision(),
-        priority = iPriority
+        oProcessorList.aListProcessor['ProcessorCollision'][0],
+        oProcessorList.aListProcessor['ProcessorCollision'][1]
     )
-    iPriority += 1
-
     oWorld.add_processor(
-        ProcessorAttack(),
-        priority = iPriority
+        oProcessorList.aListProcessor['ProcessorAttack'][0],
+        oProcessorList.aListProcessor['ProcessorAttack'][1]
     )
-    iPriority += 1
-
     oWorld.add_processor(
-        ProcessorTimeManagement(
-            oWindow = oWindow
-        ),
-        priority = iPriority
+        oProcessorList.aListProcessor['ProcessorTimeManagement'][0],
+        oProcessorList.aListProcessor['ProcessorTimeManagement'][1]
     )
-    iPriority += 1
-
     oWorld.add_processor(
-        ProcessorInput(),
-        priority = iPriority
+        oProcessorList.aListProcessor['ProcessorInput'][0],
+        oProcessorList.aListProcessor['ProcessorInput'][1]
     )
-    iPriority += 1
 
     oGameState = GameState();
 
