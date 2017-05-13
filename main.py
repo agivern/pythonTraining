@@ -111,7 +111,9 @@ def run():
     oGameState = GameState();
 
     while oGameState.bRunning:
+
         oWorld.process()
+        pygame.display.flip()
 
         oClock.tick(FPS)
 

@@ -15,6 +15,11 @@ class ProcessorList:
         self.aListProcessor = {}
 
     def initProcessor(self, oWindow, oFont):
+        oProcessorRenderInventory = ProcessorRenderInventory(
+            oWindow = oWindow,
+            oFont = oFont
+        )
+
         oProcessorRender = ProcessorRender(
             oWindow = oWindow,
             oFont = oFont
@@ -29,6 +34,8 @@ class ProcessorList:
         )
 
         iPriority = 0
+        self.aListProcessor['ProcessorRenderInventory'] = (oProcessorRenderInventory, iPriority)
+        iPriority += 1
         self.aListProcessor['ProcessorRender'] = (oProcessorRender, iPriority)
         iPriority += 1
         self.aListProcessor['ProcessorMovement'] = (oProcessorMovement, iPriority)

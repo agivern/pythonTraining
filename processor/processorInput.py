@@ -1,6 +1,6 @@
 import esper
 from component import *
-from processor import *
+import processor
 import pygame
 from pygame.locals import *
 from model import GameState
@@ -11,6 +11,7 @@ class ProcessorInput(esper.Processor):
     def __init__(self, oProcessorList):
         super().__init__()
         self.oProcessorList = oProcessorList
+
 
     def process(self):
         oGameState = GameState();
@@ -29,6 +30,8 @@ class ProcessorInput(esper.Processor):
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_i:
                         oGameState.sState = 'normal'
+                        self.world.remove_processor(processor.ProcessorRenderInventory)
+
                         self.world.add_processor(
                             self.oProcessorList.aListProcessor['ProcessorMovement'][0],
                             self.oProcessorList.aListProcessor['ProcessorMovement'][1]
@@ -79,10 +82,14 @@ class ProcessorInput(esper.Processor):
 
                         if event.key == pygame.K_i:
                             oGameState.sState = 'inventory'
-                            self.world.remove_processor(ProcessorTimeManagement)
-                            self.world.remove_processor(ProcessorMovement)
-                            self.world.remove_processor(ProcessorAttack)
-                            self.world.remove_processor(ProcessorCollision)
+                            self.world.remove_processor(processor.ProcessorTimeManagement)
+                            self.world.remove_processor(processor.ProcessorMovement)
+                            self.world.remove_processor(processor.ProcessorAttack)
+                            self.world.remove_processor(processor.ProcessorCollision)
+                            self.world.add_processor(
+                                self.oProcessorList.aListProcessor['ProcessorRenderInventory'][0],
+                                self.oProcessorList.aListProcessor['ProcessorRenderInventory'][1]
+                            )
 
                         if event.key in (pygame.K_z, pygame.K_s):
                             self.world.component_for_entity(iEntityPlayer, ComponentVelocity).fDirectionY = 0

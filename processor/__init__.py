@@ -4,6 +4,8 @@ from .processorCollision import ProcessorCollision
 from .processorAttack import ProcessorAttack
 from .processorTimeManagement import ProcessorTimeManagement
 from .processorInput import ProcessorInput
+from .processorRenderInventory import ProcessorRenderInventory
+
 
 __all__ = [
     'ProcessorRender',
@@ -11,5 +13,6 @@ __all__ = [
     'ProcessorCollision',
     'ProcessorAttack',
     'ProcessorTimeManagement',
-    'ProcessorInput'
+    'ProcessorInput',
+    'ProcessorRenderInventory'
 ]
